@@ -4,5 +4,5 @@ from django.shortcuts import render
 
 from django.shortcuts import render
 
-def index(request):
-    return render(request, 'task/index.html')
+def reminders(request):
+    return render(request, 'task/reminders.html')

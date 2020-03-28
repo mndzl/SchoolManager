@@ -1,0 +1,112 @@
+* {
+    padding:0;
+    margin:0;
+    font-family: 'Baloo 2', cursive;
+}
+a {
+    text-decoration: none;
+    color:#000;
+}
+ul{
+    list-style: none;
+}
+body{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+/* Heading */
+    header{
+        grid-column: span 2;
+    }
+    /* Main Heading */
+    .heading-container{
+        display:flex;
+        background-color: #245f96;
+        justify-content: space-between;
+        padding:1em 2em;
+        align-items: center;
+        color:#FFF;
+    }
+
+    .username{
+        font-size: 1.2em;
+        margin-right: 1em;
+    }
+    .heading-right>a{
+        font-size: 1.2em;
+        color:#FFF;
+    }
+
+    /* Navbar */
+
+    .nav-list{
+        display: flex;
+        justify-content: space-evenly;
+        padding:1em;
+        height:100%;
+        width:95%;
+        margin:auto;
+        background-color:#ededed;
+        border-radius: 10px;
+        margin-top: .5em;
+    }
+    .nav-item{
+        font-size: 1.2em;
+        font-weight: 700;
+        opacity: .8;
+        transition: .5s;
+    }
+
+    .nav-item:hover{
+        opacity: 1;
+    }
+
+    /* Sidebar */
+
+    aside{
+        padding:1.5em;
+        margin:.5em;
+        background-color: rgba(230, 219, 10, 0.85);
+        border-radius: 10px;
+        height:70vh;
+        overflow: auto;
+    }
+
+    .sidebar-title{
+        text-align: center;
+        font-size: 1.2em;
+    }
+    .sidebar-container>hr{
+        border:.5px solid rgba(161, 154, 10, 0.85);
+        margin:.5em 0;
+    }
+    .sidebar-task a{
+        font-size: 1.2em;
+        display:block;
+        line-height: .8em;
+    }
+    .sidebar-task{
+        padding:.5em;
+    }
+    .sidebar-task-date{
+        font-size: 1.1em;
+        opacity: .7;
+    }
+
+/* Main */
+
+    /* Reminders */
+
+        main{
+            margin:1em 2em;
+        }
+
+        .reminders-list{
+            list-style: disc;
+            margin-left: 2em;
+            margin-top: .5em;
+        }
+        .reminders-item{
+            margin-top: 1em;
+        }
