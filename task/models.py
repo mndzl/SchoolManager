@@ -9,6 +9,7 @@ class Subject(models.Model):
     name = models.CharField(max_length=70)
     color = models.CharField(max_length=7)
     teacher = models.CharField(max_length=50)
+    schedule = models.FileField()
 
 class Task(models.Model):
     title = models.CharField(max_length=50)
@@ -16,7 +17,6 @@ class Task(models.Model):
     description = models.CharField(max_length=1000)
     type_task = models.CharField(max_length=20)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-
 
 class File(models.Model):
     file_path = models.FileField()

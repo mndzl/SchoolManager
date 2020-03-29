@@ -137,7 +137,8 @@ ul{
         line-height: .8em;
     }
     .sidebar-task{
-        padding:.5em;
+        padding:1em;
+        position:relative;
     }
     .sidebar-task-date{
         font-size: 1.1em;
