@@ -11,7 +11,16 @@
         display:block !important
     }
     .nav-item{
-        margin-right:1em !important;
+        margin-right:1em !important;   
+    }
+    main{
+        margin: 0;
+        margin-left: 1em !important;
+    }
+}
+@media screen and (max-width:400px){
+    .nav-item{
+        font-size: 1em !important;
     }
 }
 
@@ -63,9 +72,6 @@ ul{
     }
 
     /* Navbar */
-    nav{
-        height:5em;
-    }
 
     .icon-book{
         color:#FFF;
@@ -74,9 +80,10 @@ ul{
         border-radius: 100%;
         background-color:rgb(230, 219, 10);
         position: absolute;
-        top:1em;
-        right: 1em;
+        top:.5em;
+        left:-3em;
         display: none;
+        width:1em;
     }
 
     .nav-list{
@@ -105,13 +112,18 @@ ul{
 
     aside{
         padding:1.5em;
-        background-color: rgba(230, 219, 10, 0.85);
+        background-color: rgba(230, 219, 10, 0.9);
         border-radius: 10px;
         height:70vh;
         margin-top: .5em;
         margin-right: .5em;
         grid-row: span 2;
-        overflow: auto;
+        overflow: visible;
+        transition:.5s;
+    }
+
+    .toggle{
+        right:0 !important;
     }
 
     .sidebar-title{

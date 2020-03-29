@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Baloo+2&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/reminders.css" %}">
     <link rel="stylesheet" href="{% static "fonts/style.css" %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>School Manager</title>
 </head>
 <body>
@@ -34,12 +35,12 @@
                     <li class='nav-item'><a href="#">Materias</a></li>
                 </ul>
             </div>
-            <span class="icon-book"></span>
         </nav>
 
         
 
         <aside>
+            <span class="icon-book"></span>
             <div class="sidebar-container">
                 <h4 class='sidebar-title'>Esta semana</h4>
                 <hr>
@@ -69,6 +70,10 @@
         </main>
 
     </div>
+
+    {% block javascript %}
+        <script src='{% static 'js/reminders.js' %}'></script>
+    {% endblock javascript %}
 
 </body>
 </html>
