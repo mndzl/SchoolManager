@@ -13,10 +13,6 @@
     .nav-item{
         margin-right:1em !important;   
     }
-    main{
-        margin: 0;
-        margin-left: 1em !important;
-    }
 }
 @media screen and (max-width:400px){
     .nav-item{
@@ -120,6 +116,7 @@ ul{
         grid-row: span 2;
         overflow: visible;
         transition:.5s;
+        z-index: 1;
     }
 
     .toggle{
@@ -148,11 +145,17 @@ ul{
     }
 
 /* Main */
+    
+    .link{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
 
     /* Reminders */
 
         main{
-            margin:1em 2em;
+            margin:1em;
         }
 
         .reminders-list{
