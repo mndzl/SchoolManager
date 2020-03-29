@@ -25,4 +25,4 @@ class File(models.Model):
 class Done(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    time = models.DateField(default=timezone.now())
+    time = models.DateTimeField(default=timezone.now)

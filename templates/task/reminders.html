@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Baloo+2&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href="{% static "css/reminders.css" %}">
     <link rel="stylesheet" href="{% static "fonts/style.css" %}">
     <title>School Manager</title>
 </head>
@@ -14,7 +14,7 @@
     <header>
         <div class='heading-container'>
             <div class='heading-left'>
-                <h2>2do 1ra CS IPP</h2>
+                <h2><a href="#">2do 1ra CS IPP</a></h2>
             </div>
         
             <div class="heading-right">
@@ -32,10 +32,30 @@
                     <li class='nav-item'><a href="#">Actividades</a></li>
                     <li class='nav-item'><a href="#">Pruebas</a></li>
                     <li class='nav-item'><a href="#">Materias</a></li>
-                    <li class='nav-item'><a href="#">Recordatorios</a></li>
                 </ul>
             </div>
+            <span class="icon-book"></span>
         </nav>
+
+        
+
+        <aside>
+            <div class="sidebar-container">
+                <h4 class='sidebar-title'>Esta semana</h4>
+                <hr>
+                <ul class='sidebar-list'>
+                    <li class='sidebar-task'>
+                        <a href="#">Prueba matemáticas</a>
+                        <small class='sidebar-task-date'>Lunes (4/4)</small>
+                    </li>
+                    <li class='sidebar-task'>
+                        <a href="#">Feria de ciencias</a>
+                        <small class='sidebar-task-date'>Viernes (8/4)</small>
+                    </li>
+     
+                </ul>
+            </div>
+        </aside>
 
         <main>
             {% block main %}
@@ -49,24 +69,6 @@
         </main>
 
     </div>
-    
-    <aside>
-        <div class="sidebar-container">
-            <h4 class='sidebar-title'>Esta semana</h4>
-            <hr>
-            <ul class='sidebar-list'>
-                <li class='sidebar-task'>
-                    <a href="#">Prueba matemáticas</a>
-                    <small class='sidebar-task-date'>Lunes (4/4)</small>
-                </li>
-                <li class='sidebar-task'>
-                    <a href="#">Feria de ciencias</a>
-                    <small class='sidebar-task-date'>Viernes (8/4)</small>
-                </li>
- 
-            </ul>
-        </div>
-    </aside>
 
 </body>
 </html>

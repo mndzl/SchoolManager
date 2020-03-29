@@ -1,8 +1,26 @@
+@media screen and (max-width:750px){
+    .main-container{
+        display:block !important;
+    }
+    aside{
+        position:absolute;
+        top:0;
+        right:-15.5em;
+    }
+    .icon-book{
+        display:block !important
+    }
+    .nav-item{
+        margin-right:1em !important;
+    }
+}
+
 * {
     padding:0;
     margin:0;
     font-family: 'Baloo 2', cursive;
 }
+
 a {
     text-decoration: none;
     color:#000;
@@ -10,14 +28,20 @@ a {
 ul{
     list-style: none;
 }
-body{
+
+
+.main-container{
     display: grid;
     grid-template-columns: 3fr 1fr;
+    grid-template-rows: 5em;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
 }
 
 /* Heading */
-    header{
-        grid-column: span 2;
+    .heading-left h2 a{
+        color:#FFF;
     }
     /* Main Heading */
     .heading-container{
@@ -39,10 +63,24 @@ body{
     }
 
     /* Navbar */
+    nav{
+        height:5em;
+    }
+
+    .icon-book{
+        color:#FFF;
+        padding:.5em;
+        font-size: 1.2em;
+        border-radius: 100%;
+        background-color:rgb(230, 219, 10);
+        position: absolute;
+        top:1em;
+        right: 1em;
+        display: none;
+    }
 
     .nav-list{
         display: flex;
-        justify-content: space-evenly;
         padding:1em;
         height:100%;
         width:95%;
@@ -56,6 +94,7 @@ body{
         font-weight: 700;
         opacity: .8;
         transition: .5s;
+        margin-right: 3em;
     }
 
     .nav-item:hover{
@@ -66,10 +105,12 @@ body{
 
     aside{
         padding:1.5em;
-        margin:.5em;
         background-color: rgba(230, 219, 10, 0.85);
         border-radius: 10px;
         height:70vh;
+        margin-top: .5em;
+        margin-right: .5em;
+        grid-row: span 2;
         overflow: auto;
     }
 
