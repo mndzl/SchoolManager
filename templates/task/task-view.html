@@ -1,0 +1,46 @@
+{% extends 'task/reminders.html' %}
+{% load static %}
+{% block link1 %}{% static 'css/task_detail.css' %}{% endblock link1 %}
+{% block main %}
+    <div class="taskview-container">
+        <h3 class='typetask'>
+            {% if task.type_task == 'task' %}
+                Actividad
+            {% else %}
+                Prueba
+            {% endif %}
+            
+        </h3>
+        <div class="taskview-header">
+            <div class="taskview-header-left">
+                <small class="taskview-subject">{{ task.subject.name }}</small>
+                <h1 class='taskview-title'>{{ task.title }}</h1>
+            </div>
+            <div class="taskview-header-right">
+                <div class="taskview-date">
+                    <h3 class="date">{{ task.time|date:"l, j F" }}</h3>
+                    <span class='icon-clock2'></span>
+                </div>
+                {% if task.type_task == 'task' %}
+                    <input type="checkbox" title='Tarea terminada' class="taskview-done">
+                {% endif %}
+            </div>
+        </div>
+        <div class="taskview-body">{{ task.description }}</div>
+        <div class="taskview-footer">
+            <div class="taskview-files">
+                <h4>Archivos:</h4>
+                {% if files %}
+                    {% for file in files %}
+                        <div class='taskview-file'>
+                            <span class='icon-file-empty'></span>
+                            <a class='taskview-filename' href='{{ file.file_path.url }}'>{{ file.file_path }}</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    No hay archivos
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock main %}

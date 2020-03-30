@@ -1,0 +1,94 @@
+@media screen and (max-width:580px){
+    .taskview-title{
+        font-size: 1.5em !important;
+    }
+    .icon-clock2{
+        margin:0 .2em!important;
+    }
+    .taskview-header-right{
+        display: block !important;
+    }
+    .taskview-done{
+        float: right;
+    }
+    .typetask{
+        font-size: 1.2em !important;
+    }
+}
+@media screen and (max-width:400px){
+    .taskview-title{
+        font-size: 1.2em !important;
+    }
+    .taskview-subject{
+        font-size: 1em !important;
+    }
+    .date{
+        font-size: 1em;
+    }
+    .taskview-body{
+        font-size: 1em !important;
+    }
+}
+.taskview-container{
+    width:100%;
+    padding:0 1em;
+}
+.taskview-header{
+    display: flex;
+    border-bottom:1px solid rgba(0,0,0,.3);
+    padding-bottom:1em;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.taskview-header-left{
+    line-height: 1;
+}
+.taskview-header-right{
+    display: flex;
+    align-items: center;
+}
+.taskview-date{
+    display: flex;
+    font-size: .9em;
+    align-items: center;
+}
+.date{
+    font-weight: 500;
+}
+.icon-clock2{
+    margin: 0 1em;
+}
+.taskview-subject{
+    font-size: 1.2em;
+    opacity: .7;
+}
+.taskview-title{
+    font-size: 2em;
+    font-weight: 500;
+}
+.taskview-body{
+    padding: 1em 0;
+    padding-left: 1em;
+    font-size: 1.2em;
+    white-space: pre-wrap;
+    border-bottom: 1px solid rgba(0,0,0,.3);
+}
+.taskview-file{
+    display: flex;
+    align-items: center;
+    margin-left: 1em;
+}
+.taskview-files{
+    margin-top: 1em;
+}
+.taskview-filename{
+    opacity: .8;
+    margin-left: .5em;
+    text-decoration: underline;
+}
+.typetask{
+    font-size: 1.5em;
+    margin-bottom: .5em;
+    font-weight: 500;
+}

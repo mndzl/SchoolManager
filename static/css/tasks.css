@@ -1,5 +1,5 @@
 /* Task style */
-    @media screen and (max-width:380px){
+    @media screen and (max-width:480px){
         .task-container{
             width:95% !important;
         }
@@ -28,7 +28,6 @@
     .task-container{
         position: relative;
         width:100%;
-        margin-top: -1em;
     }
 
     .task{
@@ -54,6 +53,7 @@
         border-right: 1px solid rgba(0,0,0,.3);
         padding-right:1em;
         pointer-events: none;
+        width:6em;
     }
     .task-info{
         display:block;

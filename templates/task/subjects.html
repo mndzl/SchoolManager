@@ -1,0 +1,31 @@
+{% extends 'task/reminders.html' %}
+{% load static %}
+{% block link2 %}{% static "css/subjects.css" %}{% endblock %}
+
+{% block main %}
+    {% if object_list %}
+        {% for subject in object_list %}
+            <div class="subject-container">
+                <div class="subject">
+                    <div class="subject-left">
+                        <div class="subject-info">
+                            <div class="subject-name">{{subject.name}}</div>
+                            <small class="subject-teacher">Prof. {{subject.teacher}}</small>
+                        </div>
+                        <div class="subject-days">{{subject.days}}</div>
+                    </div>
+                    <div class="subject-right">
+                        {% if subject.schedule %}
+                            <a href="{{ subject.schedule.url }}">Ver programa</a>
+                        {% else %}
+                            <div class="noContent">Sin programa</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="noContent">No hay materias</div>
+    {% endif %}
+{% endblock main %}

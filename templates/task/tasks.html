@@ -4,116 +4,33 @@
 
 {% block main %}
     <div class="task-container">
-        <div class="task">
-            <a href="#" class='link'></a>
-            <div class="task-left">
-                <div class="task-date">
-                    <div class="task-day">Esta semana</div>
-                    <div class="task-daymonth">(4/4)</div>
-                </div>
-               
-                <div class="task-info">
-                    <div class="task-subject">Dibujo</div>
-                    <div class="task-name">Casa rodante</div>
-                </div>
-            </div>
-            <div class="task-right">
-                <span class="icon-attachment"></span>
-                <input type="checkbox" class="task-done">
-            </div>
-        </div>
 
-        <hr class='task-divisor'>
+        {% if object_list %}
+            {% for task in object_list %}
+                <div class="task">
+                    <a href="{% url 'detail_task' task.id %}" class='link'></a>
+                    <div class="task-left">
+                        <div class="task-date">
+                            <div class="task-day">{{task.time|date:'l'}}</div>
+                            <div class="task-daymonth">({{task.time|date:'j/n' }})</div>
+                        </div>
 
-        <div class="task">
-            <a href="#" class='link'></a>
-            <div class="task-left">
-                <div class="task-date">
-                    <div class="task-day">Próximo mes</div>
-                    <div class="task-daymonth">(4/5)</div>
+                        <div class="task-info">
+                            <div class="task-subject">{{task.subject.name}}</div>
+                            <div class="task-name">{{task.title}}</div>
+                        </div>
+                    </div>
+                    <div class="task-right">
+                        {% if task.type_task == 'task' %}
+                            <input type="checkbox" title='Tarea terminada' class="task-done">
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="task-info">
-                    <div class="task-subject">Lengua</div>
-                    <div class="task-name">Verbos</div>
-                </div>
-            </div>
-            <div class="task-right">
-                <span class="icon-attachment"></span>
-                <input type="checkbox">
-            </div>
-        </div>
-        <hr class='task-divisor'>
-        <div class="task">
-            <a href="#" class='link'></a>
-            <div class="task-left">
-                <div class="task-date">
-                    <div class="task-day">Próximo mes</div>
-                    <div class="task-daymonth">(4/5)</div>
-                </div>
-                <div class="task-info">
-                    <div class="task-subject">Lengua</div>
-                    <div class="task-name">Verbos</div>
-                </div>
-            </div>
-            <div class="task-right">
-                <span class="icon-attachment"></span>
-                <input type="checkbox">
-            </div>
-        </div>
-        <hr class='task-divisor'>
-        <div class="task">
-            <a href="#" class='link'></a>
-            <div class="task-left">
-                <div class="task-date">
-                    <div class="task-day">Próximo mes</div>
-                    <div class="task-daymonth">(4/5)</div>
-                </div>
-                <div class="task-info">
-                    <div class="task-subject">Lengua</div>
-                    <div class="task-name">Verbos</div>
-                </div>
-            </div>
-            <div class="task-right">
-                <span class="icon-attachment"></span>
-                <input type="checkbox">
-            </div>
-        </div>
-        <hr class='task-divisor'>
-        <div class="task">
-            <a href="#" class='link'></a>
-            <div class="task-left">
-                <div class="task-date">
-                    <div class="task-day">Próximo mes</div>
-                    <div class="task-daymonth">(4/5)</div>
-                </div>
-                <div class="task-info">
-                    <div class="task-subject">Lengua</div>
-                    <div class="task-name">Verbos</div>
-                </div>
-            </div>
-            <div class="task-right">
-                <span class="icon-attachment"></span>
-                <input type="checkbox">
-            </div>
-        </div>
-        <hr class='task-divisor'>
-        <div class="task">
-            <a href="#" class='link'></a>
-            <div class="task-left">
-                <div class="task-date">
-                    <div class="task-day">Próximo mes</div>
-                    <div class="task-daymonth">(4/5)</div>
-                </div>
-                <div class="task-info">
-                    <div class="task-subject">Lengua</div>
-                    <div class="task-name">Verbos</div>
-                </div>
-            </div>
-            <div class="task-right">
-                <span class="icon-attachment"></span>
-                <input type="checkbox">
-            </div>
-        </div>
 
+                <hr class='task-divisor'>
+            {% endfor %}
+        {% else %}
+            <div class="noContent">No hay elementos</div>
+        {% endif %}
     </div>
 {% endblock main %}

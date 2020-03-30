@@ -1,0 +1,48 @@
+@media screen and (max-width:500px){
+    .subject-name{
+        font-size: 1.2em !important;
+    }
+    .subject-teacher{
+        font-size: .8em !important;
+    }
+    .subject-days{
+        font-size: .8em !important;
+    }
+    .subject-right a{
+        font-size: .8em;
+    }
+}
+@media screen and (max-width:400px){
+
+    .subject-days{
+        font-size: .8em !important;
+    }
+
+}
+.subject{
+    display:flex;
+    justify-content: space-between;
+    padding:2em;
+    align-items: center;
+    line-height: .9;
+    border-radius: 10px;
+    background-color: rgb(229, 237, 250);
+    margin-top: 1em;
+}
+.subject-name{
+    font-size: 1.5em;
+}
+.subject-teacher{
+    font-size: 1em;
+    opacity: .7;
+}
+.subject-days{
+    margin-top: 2em;
+}
+.subject-left{
+    width:50%;
+}
+.subject-right a{
+    color:black;
+    text-decoration: underline;
+}

@@ -20,7 +20,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.reminders),
-    path('tasks/', views.tasks)
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('admin/', admin.site.urls, name='admin'),
+    path('', views.RemindersListView.as_view(), name='reminders'),
+    path('tasks/', views.TasksListView.as_view(), name='tasks'),
+    path('tests/', views.TestsListView.as_view(), name='tests'),
+    path('subjects/', views.SubjectsListView.as_view(), name='subjects'),
+    path('tasks/<int:pk>', views.TaskDetailView.as_view(), name='detail_task'),
+    path('tests/<int:pk>', views.TestDetailView.as_view(), name='detail_test')
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

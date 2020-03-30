@@ -18,12 +18,12 @@
     <header>
         <div class='heading-container'>
             <div class='heading-left'>
-                <h2><a href="#">2do 1ra CS IPP</a></h2>
+                <h2><a href="{% url 'reminders' %}">2do 1ra CS IPP</a></h2>
             </div>
         
             <div class="heading-right">
                 <span class='username'>Luis</span>
-                <a href="#"><span class="icon-power"></span></a>
+                <a href="#"><span class="icon-switch"></span></a>
             </div>
         </div>
     </header>
@@ -33,29 +33,41 @@
         <nav>
             <div class="nav-list-container">
                 <ul class="nav-list">
-                    <li class='nav-item'><a href="#">Actividades</a></li>
-                    <li class='nav-item'><a href="#">Pruebas</a></li>
-                    <li class='nav-item'><a href="#">Materias</a></li>
+                    <li class='nav-item tasks-nav'><a href="{% url 'tasks' %}">Actividades</a></li>
+                    <li class='nav-item tests-nav'><a href="{% url 'tests' %}">Pruebas</a></li>
+                    <li class='nav-item subjects-nav'><a href="{% url 'subjects' %}">Materias</a></li>
                 </ul>
+
             </div>
+            <span class="icon-book"></span>
         </nav>
 
         
 
         <aside>
-            <span class="icon-book"></span>
             <div class="sidebar-container">
                 <h4 class='sidebar-title'>Esta semana</h4>
                 <hr>
                 <ul class='sidebar-list'>
-                    <li class='sidebar-task'>
-                        <a href="#">Prueba matemáticas</a>
-                        <small class='sidebar-task-date'>Lunes (4/4)</small>
-                    </li>
-                    <li class='sidebar-task'>
-                        <a href="#">Feria de ciencias</a>
-                        <small class='sidebar-task-date'>Viernes (8/4)</small>
-                    </li>
+                    {% if week %}
+                        {% for task in week %}
+                            <li class='sidebar-task'>
+                                <a href="{% url 'detail_task' task.id %}">
+                                    <div class='sidebar-task-name'>{{task.title}}
+                                        {% if task.type_task == 'test' %}
+                                        (Prueba)
+                                        {% else %}
+                                        (Actividad)
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <small class='sidebar-task-date'>{{task.time|date:'l'}} ({{task.time|date:'j/n'}})</small>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <div class="noContent">No hay tareas esta semana</div>
+                    {% endif %}
      
                 </ul>
             </div>
@@ -71,7 +83,6 @@
                 </ul>
             {% endblock main %}
         </main>
-
     </div>
 
     {% block javascript %}
