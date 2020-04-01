@@ -27,7 +27,7 @@ class TasksListView(ListView):
     template_name='task/tasks.html'
     model=Task
     def get_queryset(self):
-        tasks = Task.objects.filter(type_task='task').order_by('-time')
+        tasks = Task.objects.filter(type_task='task').order_by('time')
         tasks_undone = []
         for task in tasks:
             if (len(Done.objects.filter(task=task, user=self.request.user))==0):
@@ -52,7 +52,7 @@ class TestsListView(ListView):
     template_name='task/tasks.html'
     model=Task
     def get_queryset(self):
-        return Task.objects.filter(type_task='test', time__gte=datetime.datetime.now()).order_by('-time')
+        return Task.objects.filter(type_task='test', time__gte=datetime.datetime.now()).order_by('time')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,7 +60,7 @@ class TestsListView(ListView):
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
         context["week"] = Task.objects.filter(time__range=[start_week, end_week])
-        context['task_dones'] = Task.objects.filter(type_task='test', time__lte=datetime.datetime.now()).order_by('-time')
+        context['task_dones'] = Task.objects.filter(type_task='test', time__lte=datetime.datetime.now()).order_by('time')
         context['q_dones'] = len(context['task_dones'])
         context['q_undones'] = len(self.get_queryset())     
         context['type_task'] = 'test'   
