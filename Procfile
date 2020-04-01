@@ -1,1 +1,1 @@
-web: gunicorn taskool.wsgi
+web: gunicorn schoolmanager.wsgi
