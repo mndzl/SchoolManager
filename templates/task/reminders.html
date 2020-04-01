@@ -18,12 +18,12 @@
     <header>
         <div class='heading-container'>
             <div class='heading-left'>
-                <h2><a href="{% url 'reminders' %}">2do 1ra CS IPP</a></h2>
+                <h2><a href="{% url 'reminders' %}">{{user.student.grade}}</a></h2>
             </div>
         
             <div class="heading-right">
-                <span class='username'>Luis</span>
-                <a href="#"><span class="icon-switch"></span></a>
+                <span class='username'>{{user.first_name}}</span>
+                <a href="{% url 'logout' %}"><span class="icon-switch"></span></a>
             </div>
         </div>
     </header>
@@ -76,18 +76,20 @@
         <main>
             {% block main %}
                 <h1 class='reminders-title'>Recordatorios</h1>
-                <ul class="reminders-list">
-                    <li class="reminders-item">Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque optio tempore asperiores at, reprehenderit magnam consectetur perferendis doloremque beatae quos accusamus nihil neque, unde sequi, voluptatum pariatur ratione corrupti quod.</li>
-                    <li class="reminders-item">Recordatorio 2</li>
-                    <li class="reminders-item">Recordatorio 3</li>
-                </ul>
+                {% if object_list %}
+                    {% for task in object_list %}
+                        <ul class="reminders-list">
+                            <li class="reminders-item">{{ task.title }}</li>
+                        </ul>
+                    {% endfor %}
+                {% else %}
+                    <div class='noContent'>Sin recordatorios</div>
+
+                {% endif %}
             {% endblock main %}
         </main>
     </div>
-
-    {% block javascript %}
-        <script src='{% static 'js/reminders.js' %}'></script>
-    {% endblock javascript %}
+    <script src='{% static 'js/reminders.js' %}'></script>
 
 </body>
 </html>

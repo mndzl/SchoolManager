@@ -2,10 +2,12 @@
 from __future__ import unicode_literals
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
-from .models import Task, Subject, File
+from django.http import JsonResponse
+from .models import Task, Subject, File, Done
+from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
-class RemindersListView(ListView):
+class RemindersListView(LoginRequiredMixin, ListView):
     template_name='task/reminders.html'
     model=Task
 
@@ -25,7 +27,13 @@ class TasksListView(ListView):
     template_name='task/tasks.html'
     model=Task
     def get_queryset(self):
-        return Task.objects.filter(type_task='task')
+        tasks = Task.objects.filter(type_task='task').order_by('-time')
+        tasks_undone = []
+        for task in tasks:
+            if (len(Done.objects.filter(task=task, user=self.request.user))==0):
+                tasks_undone.append(task)
+
+        return tasks_undone
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,13 +41,18 @@ class TasksListView(ListView):
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
         context["week"] = Task.objects.filter(time__range=[start_week, end_week])
+        context['task_dones'] = Done.objects.filter(user=self.request.user)
+        context['q_dones'] = len(context['task_dones'])
+        context['q_undones'] = len(self.get_queryset())
+        context['type_task'] = 'task'
+
         return context
 
 class TestsListView(ListView):
     template_name='task/tasks.html'
     model=Task
     def get_queryset(self):
-        return Task.objects.filter(type_task='test')
+        return Task.objects.filter(type_task='test', time__gte=datetime.datetime.now()).order_by('-time')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -47,7 +60,10 @@ class TestsListView(ListView):
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
         context["week"] = Task.objects.filter(time__range=[start_week, end_week])
-        
+        context['task_dones'] = Task.objects.filter(type_task='test', time__lte=datetime.datetime.now()).order_by('-time')
+        context['q_dones'] = len(context['task_dones'])
+        context['q_undones'] = len(self.get_queryset())     
+        context['type_task'] = 'test'   
 
         return context
 
@@ -75,6 +91,8 @@ class TaskDetailView(DetailView):
         end_week = start_week + datetime.timedelta(7)
         context["week"] = Task.objects.filter(time__range=[start_week, end_week])
         context["files"] = File.objects.filter(task=obj)
+        context['is_done'] = len(Done.objects.filter(user=self.request.user, task=obj))
+
         return context    
 
 class TestDetailView(DetailView):
@@ -88,4 +106,18 @@ class TestDetailView(DetailView):
         end_week = start_week + datetime.timedelta(7)
         context["week"] = Task.objects.filter(time__range=[start_week, end_week])
         return context
+        
+def toggleTask(request, pk):
+    if request.method == 'GET':
+        task = Task.objects.get(id=pk)
+        if (Done.objects.filter(task=task, user=request.user).count()):
+            Done.objects.get(task=task, user=request.user).delete()
+        else:
+            Done.objects.create(task=task, user=request.user, time=datetime.datetime.now())
+
+        return JsonResponse({'result':'done'}, status=200)
+
+    return JsonResponse({'error':""}, status=400)
+
+
 

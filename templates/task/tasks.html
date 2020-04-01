@@ -4,7 +4,13 @@
 
 {% block main %}
     <div class="task-container">
-
+        <div class="task-undones">
+        {% if type_task == 'task' %}
+            <h2 class='task-undones-title'>Pendientes (<span class='undones-length'>{{q_undones}}</span>)</h2>
+        {% else %}
+            <h2 class='task-undones-title'>Próximas (<span class='undones-length'>{{q_undones}}</span>)</h2>
+        {% endif %}
+        
         {% if object_list %}
             {% for task in object_list %}
                 <div class="task">
@@ -23,14 +29,59 @@
                     <div class="task-right">
                         {% if task.type_task == 'task' %}
                             <input type="checkbox" title='Tarea terminada' class="task-done">
+                            <span class="task-id" style='display:none'>{{task.id}}</span>
                         {% endif %}
                     </div>
                 </div>
-
-                <hr class='task-divisor'>
             {% endfor %}
-        {% else %}
-            <div class="noContent">No hay elementos</div>
         {% endif %}
+
+        </div>
+            <div class="task-dones">
+                {% if type_task == 'task' %}
+                    <h2 class='task-dones-title'>Terminadas (<span class='dones-length'>{{q_dones}}</span>)</h2>
+                {% else %}
+                    <h2 class='task-dones-title'>Pasadas (<span class='dones-length'>{{q_dones}}</span>)</h2>
+                {% endif %}
+                
+            {% if task_dones %}
+                {% for task in task_dones %}
+                    <div class="task">
+                        {% if type_task == 'task' %}
+                            <a href="{% url 'detail_task' task.task.id %}" class='link'></a>
+                        {% else %}
+                            <a href="{% url 'detail_task' task.id %}" class='link'></a>
+                        {% endif %}
+                        
+                        <div class="task-left">
+                            <div class="task-date">
+                                <div class="task-day">{{task.time|date:'l'}}</div>
+                                <div class="task-daymonth">({{task.time|date:'j/n' }})</div>
+                            </div>
+
+                            <div class="task-info">
+                                {% if type_task == 'task' %}
+                                    <div class="task-subject">{{task.task.subject.name}}</div>
+                                    <div class="task-name">{{task.task.title}}</div>
+                                {% else %}
+                                    <div class="task-subject">{{task.subject.name}}</div>
+                                    <div class="task-name">{{task.title}}</div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        <div class="task-right">
+                            {% if type_task == 'task' %}
+                                <input type="checkbox" title='Tarea terminada' class="task-done" checked>
+                                <span class="task-id" style='display:none'>{{task.task.id}}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+
+            
+        </div>
     </div>
 {% endblock main %}

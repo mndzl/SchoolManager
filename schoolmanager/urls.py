@@ -15,17 +15,24 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from task import views
+from task import views as views_task
+from user import views as views_user
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
+
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
-    path('', views.RemindersListView.as_view(), name='reminders'),
-    path('tasks/', views.TasksListView.as_view(), name='tasks'),
-    path('tests/', views.TestsListView.as_view(), name='tests'),
-    path('subjects/', views.SubjectsListView.as_view(), name='subjects'),
-    path('tasks/<int:pk>', views.TaskDetailView.as_view(), name='detail_task'),
-    path('tests/<int:pk>', views.TestDetailView.as_view(), name='detail_test')
+    path('', views_task.RemindersListView.as_view(), name='reminders'),
+    path('tasks/', views_task.TasksListView.as_view(), name='tasks'),
+    path('tests/', views_task.TestsListView.as_view(), name='tests'),
+    path('subjects/', views_task.SubjectsListView.as_view(), name='subjects'),
+    path('tasks/<int:pk>', views_task.TaskDetailView.as_view(), name='detail_task'),
+    path('tests/<int:pk>', views_task.TestDetailView.as_view(), name='detail_test'),
+    path('tasks/<int:pk>/done', views_task.toggleTask, name='done-task'),
+    path('login/', LoginView.as_view(template_name='user/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('register/', views_user.register, name='register')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

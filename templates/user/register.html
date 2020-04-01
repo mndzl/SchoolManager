@@ -1,0 +1,44 @@
+{% extends 'user/login.html' %}
+{% block form %}
+    <div class="form-itself">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <legend>Registrarse</legend>
+
+            <div class="input register-input">
+                {{form.username.errors}}
+                <label>DNI</label>
+                {{form.username}}
+            </div>
+            <div class="input register-input">
+                {{form.email.errors}}
+                <label>Email</label>
+                {{form.email}}
+            </div>
+            <div class="input register-input">
+                {{form.first_name.errors}}
+                <label>Nombre</label>
+                {{form.first_name}}
+            </div>
+            <div class="input register-input">
+                {{form.last_name.errors}}
+                <label>Apellido</label>
+                {{form.last_name}}
+            </div>
+            <div class="input register-input">
+                {{form.password1.errors}}
+                <label>Contraseña</label>
+                {{form.password1}}
+            </div>
+            <div class="input register-input">
+                {{form.password2.errors}}
+                <label>Confirmar contraseña</label>
+                {{form.password2}}
+            </div>
+
+            <button type='submit'>Registrarse</button>
+            <small class='register'><a href="{% url 'register' %}">Ya tengo una cuenta</a></small>
+        </form>
+    </div>
+{% endblock form %}

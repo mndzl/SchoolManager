@@ -22,7 +22,8 @@
                     <span class='icon-clock2'></span>
                 </div>
                 {% if task.type_task == 'task' %}
-                    <input type="checkbox" title='Tarea terminada' class="taskview-done">
+                    <input type="checkbox" title='Tarea terminada' class="task-done">
+                    <span class="task-id" style='display:none'>{{task.id}}</span>
                 {% endif %}
             </div>
         </div>

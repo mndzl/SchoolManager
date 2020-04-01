@@ -38,6 +38,7 @@
         align-items: center;
         transition: .5s;
         position: relative;
+        border-bottom: 1px solid rgba(0,0,0,.3);
     }
     .task:hover{
         background-color: rgb(219, 219, 219);
@@ -77,4 +78,10 @@
     .task-divisor{
         opacity: .5;
         border: .5px solid rgb(163, 163, 163);
+    }
+    .task-dones-title, .task-undones-title{
+        font-weight: 500;
+    }
+    .task-dones .task{
+        opacity: .7;
     }
