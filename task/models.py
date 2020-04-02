@@ -16,7 +16,7 @@ class Subject(models.Model):
         return self.name
 
 class Task(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, blank=True, null=True)
     time = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True, null=True, max_length=1000)
     type_task = models.CharField(max_length=20)
