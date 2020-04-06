@@ -131,7 +131,7 @@ ul{
         margin-top: .5em;
         margin-right: .5em;
         grid-row: span 2;
-        overflow: visible;
+        overflow-y: scroll;
         transition:.5s;
         z-index: 1;
         box-sizing: content-box;
