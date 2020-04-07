@@ -19,7 +19,15 @@ class RemindersListView(LoginRequiredMixin, ListView):
         date = datetime.date.today()
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
-        context["week"] = Task.objects.filter(time__range=[start_week, end_week])
+        context["week"] = []
+        every_done = Done.objects.filter(user=self.request.user).values('task')
+        every_done_ids = []
+        for i in range(len(every_done)):
+            every_done_ids.append(every_done[i]["task"])
+
+        for task in every_task.iterator():
+            if task.id not in every_done_ids:
+                context["week"].append(task)
         return context
     
 
@@ -38,9 +46,19 @@ class TasksListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         date = datetime.date.today()
-        start_week = date - datetime.timedelta(date.weekday())
+        start_week = date - datetime.timedelta(date.weekday()-1)
         end_week = start_week + datetime.timedelta(7)
-        context["week"] = Task.objects.filter(time__range=[start_week, end_week])
+        every_task = Task.objects.filter(time__range=[start_week, end_week]).order_by('time')
+        context["week"] = []
+        every_done = Done.objects.filter(user=self.request.user).values('task')
+        every_done_ids = []
+        for i in range(len(every_done)):
+            every_done_ids.append(every_done[i]["task"])
+
+        for task in every_task.iterator():
+            if task.id not in every_done_ids:
+                context["week"].append(task)
+
         context['task_dones'] = Done.objects.filter(user=self.request.user)
         context['q_dones'] = len(context['task_dones'])
         context['q_undones'] = len(self.get_queryset())
@@ -59,7 +77,15 @@ class TestsListView(ListView):
         date = datetime.date.today()
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
-        context["week"] = Task.objects.filter(time__range=[start_week, end_week])
+        context["week"] = []
+        every_done = Done.objects.filter(user=self.request.user).values('task')
+        every_done_ids = []
+        for i in range(len(every_done)):
+            every_done_ids.append(every_done[i]["task"])
+
+        for task in every_task.iterator():
+            if task.id not in every_done_ids:
+                context["week"].append(task)
         context['task_dones'] = Task.objects.filter(type_task='test', time__lte=datetime.datetime.now()).order_by('time')
         context['q_dones'] = len(context['task_dones'])
         context['q_undones'] = len(self.get_queryset())     
@@ -76,7 +102,15 @@ class SubjectsListView(ListView):
         date = datetime.date.today()
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
-        context["week"] = Task.objects.filter(time__range=[start_week, end_week])
+        context["week"] = []
+        every_done = Done.objects.filter(user=self.request.user).values('task')
+        every_done_ids = []
+        for i in range(len(every_done)):
+            every_done_ids.append(every_done[i]["task"])
+
+        for task in every_task.iterator():
+            if task.id not in every_done_ids:
+                context["week"].append(task)
         return context
 
 class TaskDetailView(DetailView):
@@ -89,7 +123,15 @@ class TaskDetailView(DetailView):
         obj = self.object
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
-        context["week"] = Task.objects.filter(time__range=[start_week, end_week])
+        context["week"] = []
+        every_done = Done.objects.filter(user=self.request.user).values('task')
+        every_done_ids = []
+        for i in range(len(every_done)):
+            every_done_ids.append(every_done[i]["task"])
+
+        for task in every_task.iterator():
+            if task.id not in every_done_ids:
+                context["week"].append(task)
         context["files"] = File.objects.filter(task=obj)
         context['is_done'] = len(Done.objects.filter(user=self.request.user, task=obj))
 
@@ -104,7 +146,15 @@ class TestDetailView(DetailView):
         date = datetime.date.today()
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
-        context["week"] = Task.objects.filter(time__range=[start_week, end_week])
+        context["week"] = []
+        every_done = Done.objects.filter(user=self.request.user).values('task')
+        every_done_ids = []
+        for i in range(len(every_done)):
+            every_done_ids.append(every_done[i]["task"])
+
+        for task in every_task.iterator():
+            if task.id not in every_done_ids:
+                context["week"].append(task)
         return context
         
 def toggleTask(request, pk):
