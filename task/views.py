@@ -77,7 +77,10 @@ class TestsListView(ListView):
         date = datetime.date.today()
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
+        every_task = Task.objects.filter(time__range=[start_week, end_week]).order_by('time')
+
         context["week"] = []
+        
         every_done = Done.objects.filter(user=self.request.user).values('task')
         every_done_ids = []
         for i in range(len(every_done)):
@@ -103,6 +106,7 @@ class SubjectsListView(ListView):
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
         context["week"] = []
+        every_task = Task.objects.filter(time__range=[start_week, end_week]).order_by('time')
         every_done = Done.objects.filter(user=self.request.user).values('task')
         every_done_ids = []
         for i in range(len(every_done)):
@@ -123,6 +127,7 @@ class TaskDetailView(DetailView):
         obj = self.object
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
+        every_task = Task.objects.filter(time__range=[start_week, end_week]).order_by('time')
         context["week"] = []
         every_done = Done.objects.filter(user=self.request.user).values('task')
         every_done_ids = []
@@ -147,6 +152,7 @@ class TestDetailView(DetailView):
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
         context["week"] = []
+        every_task = Task.objects.filter(time__range=[start_week, end_week]).order_by('time')
         every_done = Done.objects.filter(user=self.request.user).values('task')
         every_done_ids = []
         for i in range(len(every_done)):
