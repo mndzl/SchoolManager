@@ -10,7 +10,7 @@ class Grade(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True)
+    #grade = models.ForeignKey(Grade, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.user.username + f' ({self.grade.name})'
