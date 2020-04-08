@@ -21,7 +21,7 @@ class Task(models.Model):
     description = models.TextField(blank=True, null=True, max_length=1000)
     type_task = models.CharField(max_length=20)
     subject = models.ForeignKey(Subject, blank=True, null=True, on_delete=models.CASCADE)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, default=1)
+    grade = models.ForeignKey(Grade, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
         return self.title + " ({})".format(self.type_task)
