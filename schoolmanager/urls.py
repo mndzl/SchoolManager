@@ -33,6 +33,7 @@ urlpatterns = [
     path('tasks/<int:pk>/done', views_task.toggleTask, name='done-task'),
     path('login/', LoginView.as_view(template_name='user/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('register/', views_user.register, name='register')
+    path('register/', views_user.register, name='register'),
+    path('<str:typetask>/new', views_task.newTask, name='new_task')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

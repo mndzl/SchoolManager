@@ -16,6 +16,9 @@
             <form method="POST">
                 {% csrf_token %}
                 <legend>Iniciar Sesión</legend>
+                {% if form.errors %}
+                    <small class='help-text' style='font-weight: 700;'>Revisa los errores en el formulario.</small>
+                {% endif %}
                 <div class="input">
                     <label>DNI</label>
                     {{form.username}}

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.shortcuts import render, redirect
+from django.views.generic import DetailView, ListView, CreateView
 from django.http import JsonResponse
 from .models import Task, Subject, File, Done
 from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
+from .forms import CreateTaskForm
 
 class RemindersListView(LoginRequiredMixin, ListView):
     template_name='task/reminders.html'
@@ -65,6 +66,7 @@ class TasksListView(ListView):
         context['q_dones'] = len(context['task_dones'])
         context['q_undones'] = len(self.get_queryset())
         context['type_task'] = 'task'
+        context['form_new_task'] = CreateTaskForm(grade=self.request.user.student.grade)
 
         return context
 
@@ -177,5 +179,17 @@ def toggleTask(request, pk):
 
     return JsonResponse({'error':""}, status=400)
 
+def newTask(request, typetask):
+    if request.method == 'POST':
+        form = CreateTaskForm(request.POST, grade=request.user.student.grade)
+        if form.is_valid():
+            form.save(commit=False)
+            form.grade = request.user.student.grade
+            form.save()
+            task = Task.objects.latest('id')
+            task.type_task = typetask
+            task.save()
+    
+    return redirect(typetask+'s')
 
 

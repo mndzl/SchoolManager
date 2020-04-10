@@ -193,11 +193,8 @@ ul{
         .reminders-item{
             margin-top: 1em;
         }
-
-        main .add-container{
-            display: block;
-            float: right;
-            margin-top: 1em;
+        .addtask{
+            margin: 1em 0;
         }
         main .add{
             padding:.5em 1em;

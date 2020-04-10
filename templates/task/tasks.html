@@ -35,6 +35,16 @@
                 </div>
             {% endfor %}
         {% endif %}
+            <div class="addtask">
+                <a class='add' href="">Agregar</a>
+            </div>
+            <div class="add-form">
+                <form action="{% url 'new_task' type_task %}" method="POST">
+                    {% csrf_token %}
+                    {{ form_new_task.as_p }}
+                    <button type='submit'>Crear</button>
+                </form>
+            </div>
 
         </div>
             <div class="task-dones">
