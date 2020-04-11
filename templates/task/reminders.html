@@ -86,9 +86,14 @@
                     <div class='noContent'>Sin recordatorios</div>
 
                 {% endif %}
-                <div class="addtask">
-                    <a class='add' href="">Agregar</a>
+                <div class="add-form">
+                    <form action="{% url 'new_reminder' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" name='description'>
+                        <button type='submit'>Crear</button>
+                    </form>
                 </div>
+
             {% endblock main %}
         </main>
     </div>

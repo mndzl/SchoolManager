@@ -31,4 +31,12 @@
     <div class="addtask">
         <a class='add' href="">Agregar</a>
     </div>
+    <div class="add-form">
+        <form action="{% url 'new_subject' %}" method="POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{ form_new_subject.as_p }}
+            
+            <button type='submit'>Crear</button>
+        </form>
+    </div>
 {% endblock main %}

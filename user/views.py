@@ -12,7 +12,6 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             user = User.objects.get(username=username)
-            grade = Grade.objects.get(name='2do 1ra CS IPP')
             Student.objects.create(user=user, grade=grade)
             login(request, user)
             return redirect('reminders')

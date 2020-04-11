@@ -31,6 +31,7 @@
                             <input type="checkbox" title='Tarea terminada' class="task-done">
                             <span class="task-id" style='display:none'>{{task.id}}</span>
                         {% endif %}
+                        {{task.grade}}
                     </div>
                 </div>
             {% endfor %}
@@ -42,6 +43,7 @@
                 <form action="{% url 'new_task' type_task %}" method="POST">
                     {% csrf_token %}
                     {{ form_new_task.as_p }}
+                    
                     <button type='submit'>Crear</button>
                 </form>
             </div>
