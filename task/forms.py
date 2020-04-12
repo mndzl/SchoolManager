@@ -1,5 +1,5 @@
 from django import forms
-from .models import Subject, Task
+from .models import Subject, Task, File
 
 class CreateTaskForm(forms.ModelForm):
     title = forms.CharField(label='Título')
@@ -25,3 +25,11 @@ class CreateSubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ['name', 'teacher', 'days', 'schedule']
+
+class FileFieldForm(forms.ModelForm):
+    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+    class Meta:
+        model = File
+        fields = ['file_path']
+        

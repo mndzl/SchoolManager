@@ -40,10 +40,11 @@
                 <a class='add' href="">Agregar</a>
             </div>
             <div class="add-form">
-                <form action="{% url 'new_task' type_task %}" method="POST">
+                <form action="{% url 'new_task' type_task %}" method="POST" enctype='multipart/form-data'>
                     {% csrf_token %}
                     {{ form_new_task.as_p }}
-                    
+                    <label for="file_field">Archivos</label>
+                    {{ new_file_form.file_field }}
                     <button type='submit'>Crear</button>
                 </form>
             </div>

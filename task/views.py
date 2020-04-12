@@ -5,8 +5,9 @@ from django.views.generic import DetailView, ListView, CreateView
 from django.http import JsonResponse
 from .models import Task, Subject, File, Done
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 import datetime
-from .forms import CreateTaskForm, CreateSubjectForm
+from .forms import CreateTaskForm, CreateSubjectForm, FileFieldForm
 
 class RemindersListView(LoginRequiredMixin, ListView):
     template_name='task/reminders.html'
@@ -37,7 +38,7 @@ class RemindersListView(LoginRequiredMixin, ListView):
         return context
     
 
-class TasksListView(ListView):
+class TasksListView(LoginRequiredMixin, ListView):
     template_name='task/tasks.html'
     model=Task
     def get_queryset(self):
@@ -70,10 +71,11 @@ class TasksListView(ListView):
         context['q_undones'] = len(self.get_queryset())
         context['type_task'] = 'task'
         context['form_new_task'] = CreateTaskForm(grade=self.request.user.student.grade)
+        context['new_file_form'] = FileFieldForm()
 
         return context
 
-class TestsListView(ListView):
+class TestsListView(LoginRequiredMixin, ListView):
     template_name='task/tasks.html'
     model=Task
     def get_queryset(self):
@@ -101,11 +103,12 @@ class TestsListView(ListView):
         context['q_undones'] = len(self.get_queryset())     
         context['type_task'] = 'test'   
         context['form_new_task'] = CreateTaskForm(grade=self.request.user.student.grade)
+        context['new_file_form'] = FileFieldForm()
 
         return context
 
 
-class SubjectsListView(ListView):
+class SubjectsListView(LoginRequiredMixin, ListView):
     template_name='task/subjects.html'
     model=Subject
     
@@ -132,7 +135,7 @@ class SubjectsListView(ListView):
         context['form_new_subject'] = CreateSubjectForm()
         return context
 
-class TaskDetailView(DetailView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = 'task/task-view.html'
     model = Task
 
@@ -157,7 +160,7 @@ class TaskDetailView(DetailView):
 
         return context    
 
-class TestDetailView(DetailView):
+class TestDetailView(LoginRequiredMixin, DetailView):
     template_name = 'task/test-view.html'
     model = Task
 
@@ -178,6 +181,7 @@ class TestDetailView(DetailView):
                 context["week"].append(task)
         return context
         
+@login_required
 def toggleTask(request, pk):
     if request.method == 'GET':
         task = Task.objects.get(id=pk)
@@ -190,20 +194,23 @@ def toggleTask(request, pk):
 
     return JsonResponse({'error':""}, status=400)
 
-def newTask(request, typetask):
+@login_required
+def newTask(request, type_task):
     if request.method == 'POST':
         form = CreateTaskForm(request.POST, grade=request.user.student.grade)
+        files = FileFieldForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save(commit=False)
-            form.grade = request.user.student.grade
-            form.save()
-            task = Task.objects.latest('id')
-            task.type_task = typetask
+            task = form.save(commit=False)
+            task.grade = request.user.student.grade
+            task.type_task = type_task
             task.save()
+
+        for file_model in request.FILES.getlist('file_field'):
+            File.objects.create(file_path=file_model, task=task, grade=request.user.student.grade)
     
-    return redirect(typetask+'s')
+    return redirect(type_task+'s')
 
-
+@login_required
 def newReminder(request):
     if request.method == 'POST':
         text = request.POST.get('description')
@@ -211,15 +218,15 @@ def newReminder(request):
 
         return redirect('reminders')
 
+@login_required
 def newSubject(request):
-    print('enter')
     if request.method == 'POST':
         form = CreateSubjectForm(request.POST, request.FILES)
         print('Post handling')
         if form.is_valid():
-            form.save(commit=False)
-            form.grade = request.user.student.grade
-            form.save()
+            subject = form.save(commit=False)
+            subject.grade = request.user.student.grade
+            subject.save()
     
     return redirect('subjects')
 

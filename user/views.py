@@ -12,7 +12,7 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             user = User.objects.get(username=username)
-            Student.objects.create(user=user, grade=grade)
+            Student.objects.create(user=user)
             login(request, user)
             return redirect('reminders')
     else:
