@@ -27,7 +27,7 @@ class CreateSubjectForm(forms.ModelForm):
         fields = ['name', 'teacher', 'days', 'schedule']
 
 class FileFieldForm(forms.ModelForm):
-    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
     class Meta:
         model = File

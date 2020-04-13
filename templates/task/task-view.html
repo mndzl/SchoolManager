@@ -43,5 +43,21 @@
                 {% endif %}
             </div>
         </div>
+        <form method='POST' enctype='multipart/form-data'>{% csrf_token %}
+            {{update_form.as_p}}
+            {{ new_file_form.file_field }}
+            <div class='files'>
+                {% if files %}
+                    {% for file in files %}
+                        <div class='file'>
+                            {{file.file_path}}
+                        </div>
+                    {% endfor %}           
+                {% else %} 
+                    Sin archivos
+                {% endif %}
+            </div>
+            <button type='submit'>Actualizar</button>
+        </form>
     </div>
 {% endblock main %}

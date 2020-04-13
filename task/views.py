@@ -174,8 +174,26 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
                 context["week"].append(task)
         context["files"] = File.objects.filter(task=obj, )
         context['is_done'] = len(Done.objects.filter(grade=self.request.user.student.grade, user=self.request.user, task=obj))
+        context['update_form'] = CreateTaskForm(instance=self.get_object(), grade=self.request.user.student.grade)
+        context['new_file_form'] = FileFieldForm()
+        context['files'] = File.objects.filter(task=self.get_object())
 
-        return context    
+        return context   
+
+    def post(self, request, *args, **kwargs):
+        form = CreateTaskForm(request.POST, grade=request.user.student.grade)
+        if form.is_valid():
+            form.save()
+        
+        if len(request.FILES) > 0:
+            old_files = File.objects.filter(task=self.get_object())
+            for file_model in old_files:
+                file_model.delete()
+
+            for file_model in request.FILES.getlist('file_field'):
+                File.objects.create(task=self.get_object(), file_path=file_model)
+
+        return redirect('tasks')
 
 class TestDetailView(LoginRequiredMixin, DetailView):
     template_name = 'task/test-view.html'

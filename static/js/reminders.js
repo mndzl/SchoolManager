@@ -4,9 +4,13 @@ $("document").ready(function(){
         $(this).toggleClass("toggle_book");
     });
     page=window.location.pathname.substring(1, window.location.pathname.length-1);
-    if (page!='/' && page!='tasks/') {        
-        $(`.${page}-nav`).css('background-color', '#d6d6d6');
-        $(`.${page}-nav`).css('opacity', '1');   
+    try{
+        if (page!='/' && page!='tasks/') {        
+            $(`.${page}-nav`).css('background-color', '#d6d6d6');
+            $(`.${page}-nav`).css('opacity', '1');   
+        }
+    }catch(error){
+        console.error(error);
     }
 
 
@@ -44,4 +48,12 @@ $("document").ready(function(){
         });
     });
 
+    $("input[name='file_field']").change(function(){
+        $('.files').html('');
+        files = [];
+        for(var i=0; i<$(this).get(0).files.length; i++){
+            files.push($(this).get(0).files[i].name);
+            $(".files").append(`<div class='file'><div class='filename'>${$(this).get(0).files[i].name}</div></div>`);
+        }
+    });
 });
