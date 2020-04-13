@@ -34,8 +34,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='user/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', views_user.register, name='register'),
-    path('new_task/<str:type_task>', views_task.newTask, name='new_task'),
-    path('new_reminder/', views_task.newReminder, name='new_reminder'),
-    path('new_subject/', views_task.newSubject, name='new_subject')
+    path('new_task/<str:type_task>', views_task.newTask, name='new_task')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -36,6 +36,12 @@ class RemindersListView(LoginRequiredMixin, ListView):
         context['type_task'] = 'reminder'
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        text = request.POST.get('description')
+        Task.objects.create(type_task='reminder', description=text, grade=request.user.student.grade)
+
+        return redirect('reminders')
     
 
 class TasksListView(LoginRequiredMixin, ListView):
@@ -135,6 +141,15 @@ class SubjectsListView(LoginRequiredMixin, ListView):
         context['form_new_subject'] = CreateSubjectForm()
         return context
 
+    def post(self, request, *args, **kwargs):
+        form = CreateSubjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            subject = form.save(commit=False)
+            subject.grade = request.user.student.grade
+            subject.save()
+    
+        return redirect('subjects')
+
 class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = 'task/task-view.html'
     model = Task
@@ -210,23 +225,5 @@ def newTask(request, type_task):
     
     return redirect(type_task+'s')
 
-@login_required
-def newReminder(request):
-    if request.method == 'POST':
-        text = request.POST.get('description')
-        Task.objects.create(type_task='reminder', description=text, grade=request.user.student.grade)
 
-        return redirect('reminders')
-
-@login_required
-def newSubject(request):
-    if request.method == 'POST':
-        form = CreateSubjectForm(request.POST, request.FILES)
-        print('Post handling')
-        if form.is_valid():
-            subject = form.save(commit=False)
-            subject.grade = request.user.student.grade
-            subject.save()
-    
-    return redirect('subjects')
 

@@ -87,7 +87,7 @@
 
                 {% endif %}
                 <div class="add-form">
-                    <form action="{% url 'new_reminder' %}" method="POST">
+                    <form method="POST">
                         {% csrf_token %}
                         <input type="text" name='description'>
                         <button type='submit'>Crear</button>
