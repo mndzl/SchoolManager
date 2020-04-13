@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render, redirect
-from django.views.generic import DetailView, ListView, CreateView
+from django.shortcuts import render, redirect, reverse
+from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.http import JsonResponse
 from .models import Task, Subject, File, Done
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 import datetime
+from django.contrib import messages
 from .forms import CreateTaskForm, CreateSubjectForm, FileFieldForm
+from django.urls import resolve
 
 class RemindersListView(LoginRequiredMixin, ListView):
     template_name='task/reminders.html'
@@ -195,6 +197,34 @@ class TestDetailView(LoginRequiredMixin, DetailView):
             if task.id not in every_done_ids:
                 context["week"].append(task)
         return context
+
+class TaskDeleteView(DeleteView):
+    model = Task
+    success_message = 'La actividad se ha borrado.'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(TaskDeleteView, self).delete(request, *args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
+        current_url = resolve(request.path_info).url_name
+        url_splitted = current_url.split('_')
+        type_task = url_splitted[1]
+        self.success_url = reverse(f'{type_task}s')
+        return self.post(request, *args, **kwargs)
+
+class SubjectDeleteView(DeleteView):
+    model = Subject
+    success_message = 'La materia se ha borrado.'
+    success_url = '/subjects/'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(SubjectDeleteView, self).delete(request, *args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
         
 @login_required
 def toggleTask(request, pk):

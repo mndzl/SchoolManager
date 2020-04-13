@@ -75,11 +75,15 @@
 
         <main>
             {% block main %}
+                {% for message in messages %}
+                    <div class='messages'>{{message}}</div>
+                {% endfor %}
                 <h1 class='reminders-title'>Recordatorios</h1>
                 {% if object_list %}
                     {% for task in object_list %}
                         <ul class="reminders-list">
                             <li class="reminders-item">{{ task.description }}</li>
+                            <a href='{% url 'delete_reminder' task.id %}'>Eliminar</a>
                         </ul>
                     {% endfor %}
                 {% else %}

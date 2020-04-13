@@ -4,6 +4,9 @@
 
 {% block main %}
     <div class="task-container">
+        {% for message in messages %}
+            <div class='messages'>{{message}}</div>
+        {% endfor %}
         <div class="task-undones">
         {% if type_task == 'task' %}
             <h2 class='task-undones-title'>Pendientes (<span class='undones-length'>{{q_undones}}</span>)</h2>
@@ -30,6 +33,10 @@
                         {% if task.type_task == 'task' %}
                             <input type="checkbox" title='Tarea terminada' class="task-done">
                             <span class="task-id" style='display:none'>{{task.id}}</span>
+                            <a href='{% url 'delete_task' task.id %}'>Eliminar</a>
+                        {% else %}
+                            <a href='{% url 'delete_test' task.id %}'>Eliminar</a>
+
                         {% endif %}
                     </div>
                 </div>

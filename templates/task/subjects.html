@@ -5,6 +5,9 @@
 {% block main %}
     {% if object_list %}
         {% for subject in object_list %}
+            {% for message in messages %}
+                <div class='messages'>{{message}}</div>
+            {% endfor %}
             <div class="subject-container">
                 <div class="subject">
                     <div class="subject-left">
@@ -20,6 +23,7 @@
                         {% else %}
                             <div class="noContent">Sin programa</div>
                         {% endif %}
+                         <a href='{% url 'delete_subject' subject.id %}'>Eliminar</a>
                     </div>
                 </div>
                 
