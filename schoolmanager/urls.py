@@ -39,5 +39,6 @@ urlpatterns = [
     path('tests/<int:pk>/delete', views_task.TaskDeleteView.as_view(), name='delete_test'),
     path('reminders/<int:pk>/delete', views_task.TaskDeleteView.as_view(), name='delete_reminder'),
     path('subjects/<int:pk>/delete', views_task.SubjectDeleteView.as_view(), name='delete_subject'),
+    path('selectgrade/', views_task.putInGrade, name='select_grade')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

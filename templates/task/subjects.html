@@ -3,6 +3,7 @@
 {% block link2 %}{% static "css/subjects.css" %}{% endblock %}
 
 {% block main %}
+    {% if user.student.has_grade %}
     {% if object_list %}
         {% for subject in object_list %}
             {% for message in messages %}
@@ -43,4 +44,9 @@
             <button type='submit'>Crear</button>
         </form>
     </div>
+    {% else %}
+        <div class='no-grade'>
+            <h3 class='no-grade-title'>Debes <a href='{% url 'reminders' %}' style='color:blue'>entrar a un curso</a> para ver esta sección.</h3>
+        </div>
+    {% endif %}
 {% endblock main %}

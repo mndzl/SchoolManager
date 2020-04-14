@@ -3,13 +3,16 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.http import JsonResponse
-from .models import Task, Subject, File, Done
+from .models import Task, Subject, File, Done, Grade
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.contrib import messages
-from .forms import CreateTaskForm, CreateSubjectForm, FileFieldForm
+from .forms import CreateTaskForm, CreateSubjectForm, FileFieldForm, PutInGradeForm
 from django.urls import resolve
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django import forms
+
 
 class RemindersListView(LoginRequiredMixin, ListView):
     template_name='task/reminders.html'
@@ -36,6 +39,7 @@ class RemindersListView(LoginRequiredMixin, ListView):
                 context["week"].append(task)
 
         context['type_task'] = 'reminder'
+        context['form_select_grade'] = PutInGradeForm()
 
         return context
 
@@ -49,6 +53,7 @@ class RemindersListView(LoginRequiredMixin, ListView):
 class TasksListView(LoginRequiredMixin, ListView):
     template_name='task/tasks.html'
     model=Task
+
     def get_queryset(self):
         tasks = Task.objects.filter(type_task='task', grade=self.request.user.student.grade).order_by('time')
         tasks_undone = []
@@ -86,6 +91,7 @@ class TasksListView(LoginRequiredMixin, ListView):
 class TestsListView(LoginRequiredMixin, ListView):
     template_name='task/tasks.html'
     model=Task
+
     def get_queryset(self):
         return Task.objects.filter(type_task='test', grade=self.request.user.student.grade ,time__gte=datetime.datetime.now()).order_by('time')
 
@@ -119,7 +125,7 @@ class TestsListView(LoginRequiredMixin, ListView):
 class SubjectsListView(LoginRequiredMixin, ListView):
     template_name='task/subjects.html'
     model=Subject
-    
+
     def get_queryset(self):
         return Subject.objects.filter(grade=self.request.user.student.grade)
     
@@ -181,10 +187,13 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         return context   
 
     def post(self, request, *args, **kwargs):
-        form = CreateTaskForm(request.POST, grade=request.user.student.grade)
+        instance = self.get_object()
+        form = CreateTaskForm(instance=instance, data=request.POST, grade=request.user.student.grade)
         if form.is_valid():
-            form.save()
-        
+            task = form.save(commit=False)
+            task.updated_by = request.user
+            task.save()
+
         if len(request.FILES) > 0:
             old_files = File.objects.filter(task=self.get_object())
             for file_model in old_files:
@@ -246,6 +255,10 @@ class SubjectDeleteView(DeleteView):
         
 @login_required
 def toggleTask(request, pk):
+
+    if request.user.student.grade is None:
+        return redirect('reminders')
+
     if request.method == 'GET':
         task = Task.objects.get(id=pk)
         if (Done.objects.filter(task=task, user=request.user).count()):
@@ -259,9 +272,12 @@ def toggleTask(request, pk):
 
 @login_required
 def newTask(request, type_task):
+
+    if request.user.student.grade is None:
+        return redirect('reminders')
+
     if request.method == 'POST':
         form = CreateTaskForm(request.POST, grade=request.user.student.grade)
-        files = FileFieldForm(request.POST, request.FILES)
         if form.is_valid():
             task = form.save(commit=False)
             task.grade = request.user.student.grade
@@ -272,6 +288,24 @@ def newTask(request, type_task):
             File.objects.create(file_path=file_model, task=task, grade=request.user.student.grade)
     
     return redirect(type_task+'s')
+
+@login_required
+def putInGrade(request):
+
+    if request.method == 'POST':
+        form = PutInGradeForm(request.POST)
+        if form.is_valid():
+            grade_id = request.POST.get('grade')
+            grade = Grade.objects.get(id=grade_id)
+            password_user = request.POST.get('password')
+            if grade.password == password_user:
+                student = request.user.student
+                student.grade = grade
+                student.save()
+                return redirect('reminders')
+            
+            form.add_error('password', 'La contraseña no es válida')
+            return render(request, 'task/reminders.html',{'form_select_grade':form})
 
 
 

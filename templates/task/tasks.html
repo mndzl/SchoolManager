@@ -3,6 +3,7 @@
 {% block link1 %}{% static "css/tasks.css" %}{% endblock link1 %}
 
 {% block main %}
+    {% if user.student.has_grade %}
     <div class="task-container">
         {% for message in messages %}
             <div class='messages'>{{message}}</div>
@@ -100,8 +101,11 @@
                 {% endfor %}
             {% endif %}
 
-
-            
         </div>
     </div>
+    {% else %}
+        <div class='no-grade'>
+            <h3 class='no-grade-title'>Debes <a href='{% url 'reminders' %}' style='color:blue'>entrar a un curso</a> para ver esta sección.</h3>
+        </div>
+    {% endif %}
 {% endblock main %}

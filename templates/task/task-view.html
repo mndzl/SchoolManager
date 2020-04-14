@@ -2,6 +2,7 @@
 {% load static %}
 {% block link1 %}{% static 'css/task_detail.css' %}{% endblock link1 %}
 {% block main %}
+    {% if user.student.has_grade %}
     <div class="taskview-container">
         <h3 class='typetask'>
             {% if task.type_task == 'task' %}
@@ -60,4 +61,9 @@
             <button type='submit'>Actualizar</button>
         </form>
     </div>
+    {% else %}
+        <div class='no-grade'>
+            <h3 class='no-grade-title'>Debes <a href='{% url 'reminders' %}' style='color:blue'>entrar a un curso</a> para ver esta sección.</h3>
+        </div>
+    {% endif %}
 {% endblock main %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Subject, Task, File
+from .models import Subject, Task, File, Grade
 
 class CreateTaskForm(forms.ModelForm):
     title = forms.CharField(label='Título')
@@ -33,3 +33,10 @@ class FileFieldForm(forms.ModelForm):
         model = File
         fields = ['file_path']
         
+class PutInGradeForm(forms.ModelForm):
+    grade = forms.ModelChoiceField(queryset=Grade.objects.all(), label='Seleccione un curso')
+    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña del curso')
+
+    class Meta:
+        model = Grade
+        fields = ['grade', 'password']

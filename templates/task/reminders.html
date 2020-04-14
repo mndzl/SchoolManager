@@ -17,10 +17,15 @@
 
     <header>
         <div class='heading-container'>
-            <div class='heading-left'>
-                <h2><a href="{% url 'reminders' %}">{{user.student.grade}}</a></h2>
-            </div>
-        
+            {% if user.student.grade %}
+                <div class='heading-left'>
+                    <h2><a href="{% url 'reminders' %}">{{user.student.grade}}</a></h2>
+                </div>
+            {% else %}
+                <div class='heading-left'>
+                    <h2><a href="{% url 'reminders' %}">Unirse a curso</a></h2>
+                </div>
+            {% endif %}
             <div class="heading-right">
                 <span class='username'>{{user.first_name}}</span>
                 <a href="{% url 'logout' %}"><span class="icon-switch"></span></a>
@@ -78,26 +83,35 @@
                 {% for message in messages %}
                     <div class='messages'>{{message}}</div>
                 {% endfor %}
-                <h1 class='reminders-title'>Recordatorios</h1>
-                {% if object_list %}
-                    {% for task in object_list %}
-                        <ul class="reminders-list">
-                            <li class="reminders-item">{{ task.description }}</li>
-                            <a href='{% url 'delete_reminder' task.id %}'>Eliminar</a>
-                        </ul>
-                    {% endfor %}
+                {% if user.student.grade %}
+                    <h1 class='reminders-title'>Recordatorios</h1>
+                    {% if object_list %}
+                        {% for task in object_list %}
+                            <ul class="reminders-list">
+                                <li class="reminders-item">{{ task.description }}</li>
+                                <a href='{% url 'delete_reminder' task.id %}'>Eliminar</a>
+                            </ul>
+                        {% endfor %}
+                    {% else %}
+                        <div class='noContent'>Sin recordatorios</div>
+
+                    {% endif %}
+                    <div class="add-form">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="text" name='description'>
+                            <button type='submit'>Crear</button>
+                        </form>
+                    </div>     
                 {% else %}
-                    <div class='noContent'>Sin recordatorios</div>
-
+                    <div class="nograde">
+                        <form action="{% url 'select_grade' %}" method="POST">
+                            {% csrf_token %}
+                            {{form_select_grade}}
+                            <button type="submit">Unirse a curso</button>
+                        </form>
+                    </div>
                 {% endif %}
-                <div class="add-form">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <input type="text" name='description'>
-                        <button type='submit'>Crear</button>
-                    </form>
-                </div>
-
             {% endblock main %}
         </main>
     </div>

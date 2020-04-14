@@ -14,3 +14,6 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.username + f' ({self.grade.name})'
+
+    def has_grade(self):
+        return self.grade is not None
