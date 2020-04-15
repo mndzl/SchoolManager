@@ -151,9 +151,12 @@ class SubjectsListView(LoginRequiredMixin, ListView):
     def post(self, request, *args, **kwargs):
         form = CreateSubjectForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save(commit=False)
-            form.grade = request.user.student.grade
-            form.save()
+            name = request.POST.get('name')
+            teacher = request.POST.get('teacher')
+            days = request.POST.get('days')
+            schedule = request.FILES['schedule']
+            grade = request.user.student.grade
+            Subject.objects.create(name=name, teacher=teacher, days=days, schedule=schedule, grade=grade)
         return redirect('subjects')
 
 
