@@ -28,6 +28,7 @@
                         </div>
                     </div>
                     <div class="task-right">
+                        {% if user.student.delegate %}
                         <span class='icon-bin delete-task'></span>
                         <div class="confirm-delete">
                             <p class='confirm-delete-title'>Deseas eliminar la tarea?</p>
@@ -36,6 +37,7 @@
                                 <span class="confirm-delete-no">No</span>
                             </div>
                         </div>
+                        {% endif %}
                         {% if task.type_task == 'task' %}
                             <input type="checkbox" title='Tarea terminada' class="task-done">
                             <span class="task-id" style='display:none'>{{task.id}}</span>
