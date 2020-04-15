@@ -79,41 +79,73 @@
         </aside>
 
         <main>
+            {% for message in messages %}
+                <div class='messages'>{{message}}</div>
+            {% endfor %}
             {% block main %}
-                {% for message in messages %}
-                    <div class='messages'>{{message}}</div>
-                {% endfor %}
                 {% if user.student.grade %}
                     <h1 class='reminders-title'>Recordatorios</h1>
                     {% if object_list %}
                         {% for task in object_list %}
                             <ul class="reminders-list">
-                                <li class="reminders-item">{{ task.description }}</li>
-                                <a href='{% url 'delete_reminder' task.id %}'>Eliminar</a>
+                                <li class="reminders-item">{{ task.description }}
+                                {% if user.student.delegate %}
+                                    <span class='icon-bin delete-task'></span>
+                                    <div class="confirm-delete">
+                                        <p class='confirm-delete-title'>Deseas eliminar la tarea?</p>
+                                        <div class="confirm-delete-selection">
+                                            <a href='{% url 'delete_task' task.id %}' class='confirm-delete-yes'>Si</a>
+                                            <span class="confirm-delete-no">No</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                </li>
                             </ul>
                         {% endfor %}
                     {% else %}
                         <div class='noContent'>Sin recordatorios</div>
 
                     {% endif %}
-                    <div class="add-form">
-                        <form method="POST">
-                            {% csrf_token %}
-                            <input type="text" name='description'>
-                            <button type='submit'>Crear</button>
-                        </form>
-                    </div>     
+                    {% if user.student.delegate %}
+                        <div class="add-reminder-form">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <textarea name='description'></textarea>
+                                <button type='submit'>Crear</button>
+                            </form>
+                        </div>  
+                    {% endif %}   
                 {% else %}
                     <div class="nograde">
                         <form action="{% url 'select_grade' %}" method="POST">
                             {% csrf_token %}
+                            <legend>Elegir un curso</legend>
                             {{form_select_grade}}
-                            <button type="submit">Unirse a curso</button>
+                            <button type="submit">Unirse</button>
                         </form>
                     </div>
                 {% endif %}
             {% endblock main %}
         </main>
+        {% if user.student.delegate %}
+            {% block form %}
+                    <div class='add-form-container'>
+                        <div class="add-form">
+                            <legend>Crear tarea</legend>
+                            <form action="{% url 'new_task' type_task %}" method="POST" enctype='multipart/form-data'>
+                                {% csrf_token %}
+                                {{ form_new_task.as_p }}
+                                <label for="file_field">Archivos</label>
+                                {{ new_file_form.file_field }}
+                                <div class='buttons'> 
+                                    <a href='#' class='close-form'>Cancelar</a>
+                                    <button class='add-form-button' type='submit'>Crear</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            {% endblock form %}
+        {% endif %}
     </div>
     <script src='{% static 'js/reminders.js' %}'></script>
 

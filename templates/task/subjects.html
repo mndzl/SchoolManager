@@ -6,9 +6,6 @@
     {% if user.student.has_grade %}
     {% if object_list %}
         {% for subject in object_list %}
-            {% for message in messages %}
-                <div class='messages'>{{message}}</div>
-            {% endfor %}
             <div class="subject-container">
                 <div class="subject">
                     <div class="subject-left">
@@ -24,7 +21,16 @@
                         {% else %}
                             <div class="noContent">Sin programa</div>
                         {% endif %}
-                         <a href='{% url 'delete_subject' subject.id %}'>Eliminar</a>
+                        {% if user.student.delegate %}
+                            <span class='icon-bin delete-task'></span>
+                            <div class="confirm-delete">
+                                <p class='confirm-delete-title'>Deseas eliminar la tarea?</p>
+                                <div class="confirm-delete-selection">
+                                    <a href='{% url 'delete_subject' subject.id %}' class='confirm-delete-yes'>Si</a>
+                                    <span class="confirm-delete-no">No</span>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 
@@ -33,20 +39,30 @@
     {% else %}
         <div class="noContent">No hay materias</div>
     {% endif %}
-    <div class="addtask">
-        <a class='add' href="">Agregar</a>
-    </div>
-    <div class="add-form">
-        <form method="POST" enctype='multipart/form-data'>
-            {% csrf_token %}
-            {{ form_new_subject.as_p }}
-            
-            <button type='submit'>Crear</button>
-        </form>
-    </div>
+    {% if user.student.delegate %}
+        <div class="addtask">
+            <button class='add'>Agregar</button>
+        </div>
+    {% endif %}
     {% else %}
         <div class='no-grade'>
             <h3 class='no-grade-title'>Debes <a href='{% url 'reminders' %}' style='color:blue'>entrar a un curso</a> para ver esta sección.</h3>
         </div>
     {% endif %}
 {% endblock main %}
+{% block form %}
+    <div class='add-form-container'>
+        <div class="add-form">
+            <form method="POST" enctype='multipart/form-data'>
+                {% csrf_token %}
+                <legend>Agregar materia</legend>
+                {{ form_new_subject.as_p }}
+                
+                <div class='buttons'> 
+                    <a href='#' class='close-form'>Cancelar</a>
+                    <button class='add-form-button' type='submit'>Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock form %}

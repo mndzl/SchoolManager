@@ -2,6 +2,18 @@
     .main-container{
         display:block !important;
     }
+    .add-form{
+        height: 40em !important;
+    }
+    select[name='time_month'], select[name='time_day'], select[name='time_year']{
+        font-size: .8em !important;
+    }
+    .add-form input{
+        font-size: 1em !important;
+    }
+    .add-form input[type='file']{
+        font-size: .8em !important;
+    }
     aside{
         position:absolute !important;
         top:0;
@@ -26,11 +38,33 @@
     .noContent{
         font-size: 1em !important;
     }
+    .confirm-delete-title{
+        font-size:1em !important;
+    }
+    .confirm-delete{
+        width: 13em !important;
+        left: 50vw !important;
+    }
+    
+    .nograde input, .nograde select{
+        margin-bottom: 1em !important;
+        width: 100% !important;
+    }
 }
 @media screen and (max-width:450px){
     .nav-item{
         font-size: 1em !important;
         padding:.5em !important;
+    }
+    .add-form legend{
+        font-size: 1.5em !important;
+    }
+    .confirm-delete-title{
+        font-size:1em !important;
+    }
+    .confirm-delete{
+        width: 13em !important;
+        left: 30vw !important;
     }
 }
 
@@ -48,7 +82,6 @@ a {
 ul{
     list-style: none;
 }
-
 
 .main-container{
     display: grid;
@@ -189,12 +222,26 @@ ul{
             list-style: disc;
             margin-left: 2em;
             margin-top: .5em;
+            position: relative;
         }
         .reminders-item{
             margin-top: 1em;
         }
+        .add-reminder-form textarea{
+            margin-top: 2em;
+        }
+        .add-reminder-form button{
+            margin-top: 1em;
+            padding:.5em 1em;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            background-color: #265480;
+            color:#fff;
+            display: block;
+        }
         .addtask{
-            margin: 1em 0;
+            margin:1em 0;
         }
         main .add{
             padding:.5em 1em;
@@ -202,8 +249,173 @@ ul{
             color:#FFF;
             border:none;
             border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
         }
         .noContent{
             opacity: .7;
             font-size: 1.2em;
+        }
+        .add-form-container{
+            position: absolute;
+            top:0;
+            width:100%;
+            height: 100%;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: .9;
+            height:100%;
+            width: 100vw;
+            z-index: 3;
+            display: none;
+        }
+        .add-form legend{
+            font-size: 1.7em;
+            margin-bottom: .5em;
+        }
+        .add-form{
+            padding:2em;
+            border-radius: 10px;
+            border: 1px solid black;
+            background-color: rgba(255, 255, 255, 1);
+            opacity: 1 !important;
+            width: 80%;
+            height: auto;
+            max-height: 90vh;
+        }
+        .add-form form{
+            display: flex;
+            flex-direction: column;
+        }
+        .add-form input, .add-form select, .add-form textarea{
+            margin-bottom:1em;
+            width: 100%;
+        }
+        .add-form label{
+            display: block;
+        }
+        select[name='time_month']{
+            width:6em;
+        }
+        select[name='time_year']{
+            width:4em;
+        } 
+        select[name='time_day']{
+            width:2em;
+        }       
+        .add-form textarea{
+            height: 5em;
+        }
+        .add-form-button{
+            cursor: pointer;
+            background-color: #265480;
+            padding:.5em 1em;
+            border: none;
+            border-radius: 10%;
+            color:white;
+            font-size: 1em;
+        }
+        .buttons{
+            margin-top: 1em;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+        .add-form .close-form{
+            float: right;
+            padding: .5em;
+            margin-right: .5em;
+            color: #f21c00;
+        }
+        .add-form select, .add-form input{
+            font-size: 1.2em;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        }
+        .add-form textarea{
+            outline: none;
+            font-size: 1.1em;
+        }
+        .add-form input[type='file']{
+            font-size: 1em;
+            border: none;
+        }
+        .update-task{
+            margin-right:.7em;
+            cursor: pointer;
+        }
+        .delete-task{
+            cursor: pointer;
+            margin: 0 1em;
+        }
+        .confirm-delete{
+            position:absolute;
+            width: 15em;
+            top:0;
+            padding:1em;
+            background-color: #FFF;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,.3);
+            left: 70%;
+            z-index: 2;
+            display: none;
+        }
+        .confirm-delete-title{
+            font-size: 1.2em;
+        }
+        .confirm-delete-selection{
+            margin-top: 1em;
+        }
+        .confirm-delete-yes{
+            margin-right: 1em;
+            color:red;
+        }
+        .confirm-delete-no{
+            cursor: pointer;
+        }
+        .messages{
+            padding:1em;
+            background-color: #32820a;
+            border-radius: 10px;
+            width:100%;
+            color:white;
+        }
+        .reminders-list .confirm-delete{
+            left: 20% !important;
+        }
+
+        /* No Grade Styles */
+
+        .nograde{
+            padding:1em;
+        }
+        .nograde label{
+            display: block;
+        }
+        .nograde select, .nograde input{
+            width:50%;
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+            font-size: 1.2em;
+            outline: none;
+            margin-bottom: 1.5em;
+        }
+        .nograde button{
+            margin-top: 1em;
+            padding:.5em 1em;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            background-color: #265480;
+            color:#fff;
+            display: block;
+        }
+        .nograde legend{
+            font-size: 2em;
+            margin-bottom: 1em;
         }

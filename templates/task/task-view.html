@@ -22,6 +22,17 @@
                     <h3 class="date">{{ task.time|date:"l, j F" }}</h3>
                     <span class='icon-clock2'></span>
                 </div>
+                <span class='icon-pencil update-task'></span>
+                {% if user.student.delegate %}
+                    <span class='icon-bin delete-task'></span>
+                    <div class="confirm-delete">
+                        <p class='confirm-delete-title'>Deseas eliminar la tarea?</p>
+                        <div class="confirm-delete-selection">
+                            <a href='{% url 'delete_task' task.id %}' class='confirm-delete-yes'>Si</a>
+                            <span class="confirm-delete-no">No</span>
+                        </div>
+                    </div>
+                {% endif %}
                 {% if task.type_task == 'task' %}
                     <input type="checkbox" title='Tarea terminada' class="task-done">
                     <span class="task-id" style='display:none'>{{task.id}}</span>
@@ -44,22 +55,7 @@
                 {% endif %}
             </div>
         </div>
-        <form method='POST' enctype='multipart/form-data'>{% csrf_token %}
-            {{update_form.as_p}}
-            {{ new_file_form.file_field }}
-            <div class='files'>
-                {% if files %}
-                    {% for file in files %}
-                        <div class='file'>
-                            {{file.file_path}}
-                        </div>
-                    {% endfor %}           
-                {% else %} 
-                    Sin archivos
-                {% endif %}
-            </div>
-            <button type='submit'>Actualizar</button>
-        </form>
+
     </div>
     {% else %}
         <div class='no-grade'>
@@ -67,3 +63,21 @@
         </div>
     {% endif %}
 {% endblock main %}
+
+{% block form %}
+    <div class='add-form-container'>
+        <div class="add-form">
+            <legend>Actualizar tarea</legend>
+            <form method="POST" enctype='multipart/form-data'>
+                {% csrf_token %}
+                {{ update_form.as_p }}
+                <label for="file_field">Archivos</label>
+                {{ new_file_form.file_field }}
+                <div class='buttons'> 
+                    <a href='#' class='close-form'>Cancelar</a>
+                    <button class='add-form-button' type='submit'>Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock form %}

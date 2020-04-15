@@ -85,3 +85,6 @@
     .task-dones .task{
         opacity: .7;
     }
+    .task-done{
+        font-size: 1.2em;
+    }

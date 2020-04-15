@@ -48,12 +48,28 @@ $("document").ready(function(){
         });
     });
 
-    $("input[name='file_field']").change(function(){
-        $('.files').html('');
-        files = [];
-        for(var i=0; i<$(this).get(0).files.length; i++){
-            files.push($(this).get(0).files[i].name);
-            $(".files").append(`<div class='file'><div class='filename'>${$(this).get(0).files[i].name}</div></div>`);
-        }
+    $('.add-form').css('transform', 'scale(0)');
+    $('.add').click(function(e){
+        e.preventDefault()
+        $('.add-form-container').css('display', 'flex');
+        $('.add-form').attr('style', 'transform:scale(100%)');
+    });
+    $('.update-task').click(function(){
+        $('.add-form-container').css('display', 'flex');
+        $('.add-form').attr('style', 'transform:scale(100%)');        
+    })
+
+
+    $('.close-form').click(function(e){
+        e.preventDefault();
+        $('.add-form-container').css('display', 'none');
+        $('.add-form').attr('style', 'transform:scale(0)');
+    });
+
+    $('.delete-task').click(function(){
+        $(this).next().css('display', 'block');
+    });
+    $('.confirm-delete-no').click(function(){
+        $(this).next().css('display', 'none');
     });
 });

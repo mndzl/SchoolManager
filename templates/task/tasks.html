@@ -5,9 +5,6 @@
 {% block main %}
     {% if user.student.has_grade %}
     <div class="task-container">
-        {% for message in messages %}
-            <div class='messages'>{{message}}</div>
-        {% endfor %}
         <div class="task-undones">
         {% if type_task == 'task' %}
             <h2 class='task-undones-title'>Pendientes (<span class='undones-length'>{{q_undones}}</span>)</h2>
@@ -31,32 +28,27 @@
                         </div>
                     </div>
                     <div class="task-right">
+                        <span class='icon-bin delete-task'></span>
+                        <div class="confirm-delete">
+                            <p class='confirm-delete-title'>Deseas eliminar la tarea?</p>
+                            <div class="confirm-delete-selection">
+                                <a href='{% url 'delete_task' task.id %}' class='confirm-delete-yes'>Si</a>
+                                <span class="confirm-delete-no">No</span>
+                            </div>
+                        </div>
                         {% if task.type_task == 'task' %}
                             <input type="checkbox" title='Tarea terminada' class="task-done">
                             <span class="task-id" style='display:none'>{{task.id}}</span>
-                            <a href='{% url 'delete_task' task.id %}'>Eliminar</a>
-                        {% else %}
-                            <a href='{% url 'delete_test' task.id %}'>Eliminar</a>
-
                         {% endif %}
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
+        {% if user.student.delegate %}
             <div class="addtask">
-                <a class='add' href="">Agregar</a>
+                <button class='add'>Agregar</button>
             </div>
-            <div class="add-form">
-                <form action="{% url 'new_task' type_task %}" method="POST" enctype='multipart/form-data'>
-                    {% csrf_token %}
-                    {{ form_new_task.as_p }}
-                    <label for="file_field">Archivos</label>
-                    {{ new_file_form.file_field }}
-                    <div class='files'></div>
-                    <button type='submit'>Crear</button>
-                </form>
-            </div>
-
+        {% endif %}
         </div>
             <div class="task-dones">
                 {% if type_task == 'task' %}

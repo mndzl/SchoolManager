@@ -8,11 +8,19 @@
     .taskview-header-right{
         display: block !important;
     }
-    .taskview-done{
-        float: right;
-    }
     .typetask{
         font-size: 1.2em !important;
+    }
+    .update-task{
+        float: right;
+    }
+    .task-done{
+        float: right;
+        margin-right: .5em;
+    }
+    .delete-task{
+        float: right;
+        margin: 0 1em;
     }
 }
 @media screen and (max-width:400px){
@@ -91,4 +99,10 @@
     font-size: 1.5em;
     margin-bottom: .5em;
     font-weight: 500;
+}
+.update-task{
+    float: right;
+}
+.delete-task{
+    margin-right: 1em;
 }

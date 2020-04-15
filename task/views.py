@@ -118,7 +118,6 @@ class TestsListView(LoginRequiredMixin, ListView):
         context['type_task'] = 'test'   
         context['form_new_task'] = CreateTaskForm(grade=self.request.user.student.grade)
         context['new_file_form'] = FileFieldForm()
-
         return context
 
 
@@ -149,14 +148,7 @@ class SubjectsListView(LoginRequiredMixin, ListView):
         context['form_new_subject'] = CreateSubjectForm()
         return context
 
-    def post(self, request, *args, **kwargs):
-        form = CreateSubjectForm(request.POST, request.FILES)
-        if form.is_valid():
-            subject = form.save(commit=False)
-            subject.grade = request.user.student.grade
-            subject.save()
-    
-        return redirect('subjects')
+
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = 'task/task-view.html'
@@ -178,7 +170,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         for task in every_task.iterator():
             if task.id not in every_done_ids:
                 context["week"].append(task)
-        context["files"] = File.objects.filter(task=obj, )
+        context["files"] = File.objects.filter(task=obj)
         context['is_done'] = len(Done.objects.filter(grade=self.request.user.student.grade, user=self.request.user, task=obj))
         context['update_form'] = CreateTaskForm(instance=self.get_object(), grade=self.request.user.student.grade)
         context['new_file_form'] = FileFieldForm()
@@ -225,9 +217,12 @@ class TestDetailView(LoginRequiredMixin, DetailView):
                 context["week"].append(task)
         return context
 
-class TaskDeleteView(DeleteView):
+class TaskDeleteView(UserPassesTestMixin, DeleteView):
     model = Task
     success_message = 'La actividad se ha borrado.'
+
+    def test_func(self):
+        return self.request.user.student.delegate
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
@@ -240,10 +235,13 @@ class TaskDeleteView(DeleteView):
         self.success_url = reverse(f'{type_task}s')
         return self.post(request, *args, **kwargs)
 
-class SubjectDeleteView(DeleteView):
+class SubjectDeleteView(UserPassesTestMixin ,DeleteView):
     model = Subject
     success_message = 'La materia se ha borrado.'
     success_url = '/subjects/'
+
+    def test_func(self):
+        return self.request.user.student.delegate
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
