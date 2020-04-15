@@ -189,7 +189,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         if len(request.FILES) > 0:
             old_files = File.objects.filter(task=self.get_object())
             for file_model in old_files:
-                file_model.delete()
+                file_model()
 
             for file_model in request.FILES.getlist('file_field'):
                 File.objects.create(task=self.get_object(), file_path=file_model)

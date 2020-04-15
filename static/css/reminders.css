@@ -418,3 +418,16 @@ ul{
             font-size: 2em;
             margin-bottom: 1em;
         }
+
+        /*Footer*/
+        .footer-div{
+            width:90%;
+            margin: auto;
+        }
+        .taskool{
+            font-weight: 700;
+        }
+        footer{
+            text-align: center;
+            margin-bottom: 1em;
+        }
