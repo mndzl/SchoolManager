@@ -231,14 +231,13 @@ ul{
             margin-top: 2em;
         }
         .add-reminder-form button{
-            margin-top: 1em;
             padding:.5em 1em;
             font-size: 1.2em;
             border: none;
             border-radius: 10px;
             background-color: #265480;
             color:#fff;
-            display: block;
+            cursor: pointer;
         }
         .addtask{
             margin:1em 0;
