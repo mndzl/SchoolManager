@@ -153,7 +153,6 @@ class SubjectsListView(LoginRequiredMixin, ListView):
         if form.is_valid():
             form.save(commit=False)
             form.grade = request.user.student.grade
-            form.color = 'none'
             form.save()
         return redirect('subjects')
 
