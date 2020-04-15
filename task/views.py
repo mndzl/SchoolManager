@@ -148,6 +148,13 @@ class SubjectsListView(LoginRequiredMixin, ListView):
         context['form_new_subject'] = CreateSubjectForm()
         return context
 
+    def post(self, request, *args, **kwargs):
+        form = CreateSubjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save(commit=False)
+            form.grade = request.user.student.grade
+            form.save()
+        return redirect('subjects')
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):

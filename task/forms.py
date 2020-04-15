@@ -20,7 +20,7 @@ class CreateSubjectForm(forms.ModelForm):
     name = forms.CharField(max_length=70, label='Nombre')
     teacher = forms.CharField(max_length=50, label='Profesor')
     schedule = forms.FileField(required=False, label='Programa')
-    days = forms.CharField(max_length=100, label='Dias de clase', empty_value='Dias por confirmar')
+    days = forms.CharField(max_length=100, label='Dias de clase', initial='Dias por confirmar')
 
     class Meta:
         model = Subject
