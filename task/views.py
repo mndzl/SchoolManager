@@ -154,9 +154,12 @@ class SubjectsListView(LoginRequiredMixin, ListView):
             name = request.POST.get('name')
             teacher = request.POST.get('teacher')
             days = request.POST.get('days')
-            schedule = request.FILES['schedule']
             grade = request.user.student.grade
-            Subject.objects.create(name=name, teacher=teacher, days=days, schedule=schedule, grade=grade)
+            if 'schedule' in request.FILES:
+                schedule = request.FILES['schedule']
+                Subject.objects.create(name=name, teacher=teacher, days=days, schedule=schedule, grade=grade)
+            else:
+                Subject.objects.create(name=name, teacher=teacher, days=days, grade=grade)                
         return redirect('subjects')
 
 
