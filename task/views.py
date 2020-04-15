@@ -27,7 +27,7 @@ class RemindersListView(LoginRequiredMixin, ListView):
         start_week = date - datetime.timedelta(date.weekday())
         end_week = start_week + datetime.timedelta(7)
         context["week"] = []
-        every_task = Task.objects.filter(time__range=[start_week, end_week]).order_by('time')
+        every_task = Task.objects.filter(grade=self.request.user.student.grade, time__range=[start_week, end_week]).order_by('time')
 
         every_done = Done.objects.filter(user=self.request.user).values('task')
         every_done_ids = []
