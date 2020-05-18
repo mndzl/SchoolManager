@@ -275,7 +275,7 @@ def toggleTask(request, pk):
         if (Done.objects.filter(task=task, user=request.user).count()):
             Done.objects.get(task=task, user=request.user).delete()
         else:
-            Done.objects.create(task=task, user=request.user, time=datetime.datetime.now(), grade=request.user.student.grade)
+            Done.objects.create(task=task, user=request.user, time=datetime.datetime.now(), grade=request.user.student.grade )
 
         return JsonResponse({'result':'done'}, status=200)
 
